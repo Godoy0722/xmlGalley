@@ -17,6 +17,24 @@ msgstr "XML Dizgi Eklentisi"
 msgid "plugins.generic.xmlGalley.description"
 msgstr "Bu eklenti XSLT kullanarak XML makale XHTML dizgileri oluşturur."
 
+msgid "plugins.generic.xmlGalley.settings.description"
+msgstr "<p>Bu eklenti ile makale dizgileri, yüklenen bir XML kaynak dosyasından seçilen XSL stil sayfası dönüşümü kullanılarak otomatik olarak oluşturulur.</p><p>Bu eklentiyi kullanırken Lens Galley eklentisini devre dışı bırakın, çünkü her ikisi de XML dizgilerini işler.</p>"
+
+msgid "plugins.generic.xmlGalley.settings.stylesheet"
+msgstr "XSL Stil Sayfası"
+
+msgid "plugins.generic.xmlGalley.settings.xslNLM"
+msgstr "Yerleşik NLM Journal Publishing DTD stil sayfası"
+
+msgid "plugins.generic.xmlGalley.settings.customXSL"
+msgstr "Özel XSL stil sayfası"
+
+msgid "plugins.generic.xmlGalley.settings.customXSLRequired"
+msgstr "Özel bir XSL stil sayfası dosyası yüklenmelidir."
+
+msgid "plugins.generic.xmlGalley.settings.customXSLInvalid"
+msgstr "Yüklenen XSL dosyası geçerli değil. Lütfen dosyayı kontrol edip tekrar deneyin."
+
 msgid "plugins.generic.xmlGalley.settings.customXSLUpload"
 msgstr "Özel bir XSL stil sayfası yükleyin (.xsl)"
 
