@@ -1,0 +1,45 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-11-20T17:19:12+00:00\n"
+"PO-Revision-Date: 2026-11-20T17:19:12+00:00\n"
+"Language: \n"
+
+msgid "plugins.generic.xmlGalley.displayName"
+msgstr "Generator stron XHTML ze źródeł XML"
+
+msgid "plugins.generic.xmlGalley.description"
+msgstr "Wtyczka generuje pliki XHTML ze źródeł XML."
+
+msgid "plugins.generic.xmlGalley.settings.description"
+msgstr "<p>Wtyczka automatycznie generuje teksty do postaci HTML wykorzystując w tym celu źródło w postaci XML</p><p>Wyłącz wtyczkę Lens Galley podczas korzystania z tej wtyczki, ponieważ obie obsługują pliki XML.</p>"
+
+msgid "plugins.generic.xmlGalley.settings.stylesheet"
+msgstr "XSL Stylesheet"
+
+msgid "plugins.generic.xmlGalley.settings.xslNLM"
+msgstr "<a href=\"http://dtd.nlm.nih.gov/publishing/\">NLM Journal Publishing DTD</a> &rarr; XHTML"
+
+msgid "plugins.generic.xmlGalley.settings.customXSL"
+msgstr "Custom XSL stylesheet"
+
+msgid "plugins.generic.xmlGalley.settings.customXSLRequired"
+msgstr "A custom XSL stylesheet file must be specified."
+
+msgid "plugins.generic.xmlGalley.settings.customXSLInvalid"
+msgstr "The uploaded XSL file was not valid. Please check the file and try again."
+
+msgid "plugins.generic.xmlGalley.settings.customXSLUpload"
+msgstr "Prześlij własny arkusz stylów XSL (.xsl)"
+
+msgid "plugins.generic.xmlGalley.settings.customXSLCurrent"
+msgstr "Bieżący własny arkusz stylów: {$fileName}"
+
+msgid "plugins.generic.xmlGalley.settings.stylesheetRequired"
+msgstr "Wybierz arkusz stylów XSL."

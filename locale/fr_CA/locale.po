@@ -1,0 +1,45 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-11-20T17:19:11+00:00\n"
+"PO-Revision-Date: 2026-11-20T17:19:11+00:00\n"
+"Language: \n"
+
+msgid "plugins.generic.xmlGalley.displayName"
+msgstr "Plugiciel d'épreuve XML"
+
+msgid "plugins.generic.xmlGalley.description"
+msgstr "Ce plugiciel génère des épreuves XHTML à partir d'un article XML utilisant XSLT."
+
+msgid "plugins.generic.xmlGalley.settings.description"
+msgstr "<p>Ce plugiciel permet de traduire automatiquement les épreuves d'articles, à partir d'un fichier source XML téléchargé, en utilisant une transformation de feuille de style XSL spécifique.</p><p>Désactivez le plugiciel Lens Galley lorsque vous utilisez ce plugiciel, car les deux traitent les épreuves XML.</p>"
+
+msgid "plugins.generic.xmlGalley.settings.stylesheet"
+msgstr "Feuille de style XSL"
+
+msgid "plugins.generic.xmlGalley.settings.xslNLM"
+msgstr "<a href=\"http://dtd.nlm.nih.gov/publishing/\">Définition de type de document NLM pour l'édition de revues</a> &rarr; XHTML"
+
+msgid "plugins.generic.xmlGalley.settings.customXSL"
+msgstr "Feuille de style XSL personnalisée"
+
+msgid "plugins.generic.xmlGalley.settings.customXSLRequired"
+msgstr "Il faut spécifier un fichier de feuille de style XSL personnalisée."
+
+msgid "plugins.generic.xmlGalley.settings.customXSLInvalid"
+msgstr "Le fichier XSL téléchargé n'était pas valide. Veuillez vérifier le fichier et essayer de nouveau."
+
+msgid "plugins.generic.xmlGalley.settings.customXSLUpload"
+msgstr "Téléverser une feuille de style XSL personnalisée (.xsl)"
+
+msgid "plugins.generic.xmlGalley.settings.customXSLCurrent"
+msgstr "Feuille de style personnalisée actuelle : {$fileName}"
+
+msgid "plugins.generic.xmlGalley.settings.stylesheetRequired"
+msgstr "Veuillez choisir une feuille de style XSL."

@@ -1,0 +1,45 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-11-20T17:19:12+00:00\n"
+"PO-Revision-Date: 2026-11-20T17:19:12+00:00\n"
+"Language: \n"
+
+msgid "plugins.generic.xmlGalley.displayName"
+msgstr "XML展示插件"
+
+msgid "plugins.generic.xmlGalley.description"
+msgstr "本插件利用XSLT将XML文章生成XHTML."
+
+msgid "plugins.generic.xmlGalley.settings.description"
+msgstr "<p>有了这个插件，上传的XML文章原文件通过特定的XSL样式表转换，自动被呈现为XHTML。</p><p>使用本插件时请停用Lens Galley插件，因为两者都处理XML校样。</p>"
+
+msgid "plugins.generic.xmlGalley.settings.stylesheet"
+msgstr "XSL Stylesheet"
+
+msgid "plugins.generic.xmlGalley.settings.xslNLM"
+msgstr "<a href=\"http://dtd.nlm.nih.gov/publishing/\">NLM杂志出版的 DTD</a> &rarr; XHTML"
+
+msgid "plugins.generic.xmlGalley.settings.customXSL"
+msgstr "定制XSL stylesheet"
+
+msgid "plugins.generic.xmlGalley.settings.customXSLRequired"
+msgstr "必须指定一个定制的XSL stylesheet文件"
+
+msgid "plugins.generic.xmlGalley.settings.customXSLInvalid"
+msgstr "上传的XSL文件无效. 请检查文件并重新上传."
+
+msgid "plugins.generic.xmlGalley.settings.customXSLUpload"
+msgstr "上传定制XSL stylesheet (.xsl)"
+
+msgid "plugins.generic.xmlGalley.settings.customXSLCurrent"
+msgstr "当前定制stylesheet：{$fileName}"
+
+msgid "plugins.generic.xmlGalley.settings.stylesheetRequired"
+msgstr "请选择一个XSL stylesheet。"

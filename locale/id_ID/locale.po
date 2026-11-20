@@ -1,0 +1,45 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-11-20T17:19:11+00:00\n"
+"PO-Revision-Date: 2026-11-20T17:19:11+00:00\n"
+"Language: \n"
+
+msgid "plugins.generic.xmlGalley.displayName"
+msgstr "Plugin Galley XML"
+
+msgid "plugins.generic.xmlGalley.description"
+msgstr "Plugin ini menghasilkan galley XHTML dari artikel XML yang menggunakan XSLT."
+
+msgid "plugins.generic.xmlGalley.settings.description"
+msgstr "<p>Dengan plugin ini, galley artikel akan secara otomatis dikirimkan dari file sumber XML yang diupload, dengan menggunakan informasi stylesheet XSL spesifik.</p><p>Nonaktifkan plugin Lens Galley saat menggunakan plugin ini, karena keduanya menangani galley XML.</p>"
+
+msgid "plugins.generic.xmlGalley.settings.stylesheet"
+msgstr "XSL Stylesheet"
+
+msgid "plugins.generic.xmlGalley.settings.xslNLM"
+msgstr "<a href=\"http://dtd.nlm.nih.gov/publishing/\">NLM Journal Publishing DTD</a> &rarr; XHTML"
+
+msgid "plugins.generic.xmlGalley.settings.customXSL"
+msgstr "Custom XSL stylesheet"
+
+msgid "plugins.generic.xmlGalley.settings.customXSLRequired"
+msgstr "File custom XSL stylesheet harus ditentukan."
+
+msgid "plugins.generic.xmlGalley.settings.customXSLInvalid"
+msgstr " XSL file yang diupload tidak valid. Cek file dan coba lagi."
+
+msgid "plugins.generic.xmlGalley.settings.customXSLUpload"
+msgstr "Unggah custom XSL stylesheet (.xsl)"
+
+msgid "plugins.generic.xmlGalley.settings.customXSLCurrent"
+msgstr "Custom stylesheet saat ini: {$fileName}"
+
+msgid "plugins.generic.xmlGalley.settings.stylesheetRequired"
+msgstr "Silakan pilih XSL stylesheet."

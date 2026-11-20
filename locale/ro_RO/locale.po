@@ -1,0 +1,45 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-11-20T17:19:12+00:00\n"
+"PO-Revision-Date: 2026-11-20T17:19:12+00:00\n"
+"Language: \n"
+
+msgid "plugins.generic.xmlGalley.displayName"
+msgstr "Modul asamblării în XML"
+
+msgid "plugins.generic.xmlGalley.description"
+msgstr "Acest modul generează asamblări XHTML dintr-un articol XML folosindu-se XSLT."
+
+msgid "plugins.generic.xmlGalley.settings.description"
+msgstr "<p>Folosind acest modul, articolul asamblat va fi constituit automat dintr-un fişier sursă XML care a fost încărcat folosindu-se o foaie de transformare XSL.</p><p>Dezactivaţi modulul Lens Galley când folosiţi acest modul, deoarece ambele procesează asamblări XML.</p>"
+
+msgid "plugins.generic.xmlGalley.settings.stylesheet"
+msgstr "Stylesheet XSL"
+
+msgid "plugins.generic.xmlGalley.settings.xslNLM"
+msgstr "<a href=\"http://dtd.nlm.nih.gov/publishing/\">DTD-ul pentru publicare al NLM Journal</a> &rarr; XHTML"
+
+msgid "plugins.generic.xmlGalley.settings.customXSL"
+msgstr "Stylesheet XSL particularizat"
+
+msgid "plugins.generic.xmlGalley.settings.customXSLRequired"
+msgstr "Trebuie specificat un fişier stylesheet XSL."
+
+msgid "plugins.generic.xmlGalley.settings.customXSLInvalid"
+msgstr "Fişierul XSL încărcat nu este valid. Verificaţi fişierul şi încercaţi din nou."
+
+msgid "plugins.generic.xmlGalley.settings.customXSLUpload"
+msgstr "Încarcă un stylesheet XSL particularizat (.xsl)"
+
+msgid "plugins.generic.xmlGalley.settings.customXSLCurrent"
+msgstr "Stylesheet particularizat curent: {$fileName}"
+
+msgid "plugins.generic.xmlGalley.settings.stylesheetRequired"
+msgstr "Vă rugăm să alegeţi un stylesheet XSL."

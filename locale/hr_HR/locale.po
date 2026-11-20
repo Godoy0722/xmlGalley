@@ -1,0 +1,45 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-11-20T17:19:11+00:00\n"
+"PO-Revision-Date: 2026-11-20T17:19:11+00:00\n"
+"Language: \n"
+
+msgid "plugins.generic.xmlGalley.displayName"
+msgstr "Dodatak za XML prijelom"
+
+msgid "plugins.generic.xmlGalley.description"
+msgstr "Ovaj dodatak generira XHTML prijelom iz XML članaka koristeći XSLT."
+
+msgid "plugins.generic.xmlGalley.settings.description"
+msgstr "<p>S ovim dodatkom, prijelom članaka će biti automatski prikazan temeljem izvorne poslane XML datoteke korištenjem specifične XSL stylesheet transformacije.</p><p>Isključite dodatak Lens Galley kada koristite ovaj dodatak jer oba obrađuju XML prijelome.</p>"
+
+msgid "plugins.generic.xmlGalley.settings.stylesheet"
+msgstr "XSL Stylesheet"
+
+msgid "plugins.generic.xmlGalley.settings.xslNLM"
+msgstr "<a href=\"http://dtd.nlm.nih.gov/publishing/\">NLM Journal Publishing DTD</a> → XHTML"
+
+msgid "plugins.generic.xmlGalley.settings.customXSL"
+msgstr "Posebni XSL stylesheet"
+
+msgid "plugins.generic.xmlGalley.settings.customXSLRequired"
+msgstr "Potrebno je specificirati posebnu XSL stylesheet datoteku."
+
+msgid "plugins.generic.xmlGalley.settings.customXSLInvalid"
+msgstr "Poslana XSL datoteka nije valjana. Molimo provjerite datoteku i pokušajte ponovo."
+
+msgid "plugins.generic.xmlGalley.settings.customXSLUpload"
+msgstr "Učitaj posebni XSL stylesheet (.xsl)"
+
+msgid "plugins.generic.xmlGalley.settings.customXSLCurrent"
+msgstr "Trenutni posebni stylesheet: {$fileName}"
+
+msgid "plugins.generic.xmlGalley.settings.stylesheetRequired"
+msgstr "Molimo odaberite XSL stylesheet."

@@ -1,0 +1,45 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-11-20T17:19:11+00:00\n"
+"PO-Revision-Date: 2026-11-20T17:19:11+00:00\n"
+"Language: \n"
+
+msgid "plugins.generic.xmlGalley.displayName"
+msgstr "Πρόσθετο XML Τυπογραφικών Δοκιμίων"
+
+msgid "plugins.generic.xmlGalley.description"
+msgstr "Αυτό το πρόσθετο παράγει XHTML τυπογραφικά δοκίμια για ένα XML άρθρο με την χρήση XSLT."
+
+msgid "plugins.generic.xmlGalley.settings.description"
+msgstr "<p>Με αυτό το πρόσθετο, τα τυπογραφικά δοκίμια του άρθρου θα αποδοθούν αυτόματα από ένα φορτωμένο αρχείο πηγής XML, χρησιμοποιώντας έναν συγκεκριμένο XSL stylesheet μετασχηματισμό.</p><p>Απενεργοποιήστε το πρόσθετο Lens Galley όταν χρησιμοποιείτε αυτό το πρόσθετο, καθώς και τα δύο χειρίζονται XML τυπογραφικά δοκίμια.</p>"
+
+msgid "plugins.generic.xmlGalley.settings.stylesheet"
+msgstr "Αρχείο στυλ XSL"
+
+msgid "plugins.generic.xmlGalley.settings.xslNLM"
+msgstr "<a href=\"http://dtd.nlm.nih.gov/publishing/\">NLM Journal Publishing DTD</a> &rarr; XHTML"
+
+msgid "plugins.generic.xmlGalley.settings.customXSL"
+msgstr "Προσαρμοσμένο αρχείο στυλ XSL"
+
+msgid "plugins.generic.xmlGalley.settings.customXSLRequired"
+msgstr "Ένα προσαρμοσμένο αρχείο στυλ XSL πρέπει να οριστεί."
+
+msgid "plugins.generic.xmlGalley.settings.customXSLInvalid"
+msgstr "Το μεταφορτωμένο αρχείο XSL δεν ήταν έγκυρο. Παρακαλούμε ελέγξτε το αρχείο και ξαναπροσπαθήστε."
+
+msgid "plugins.generic.xmlGalley.settings.customXSLUpload"
+msgstr "Μεταφόρτωση προσαρμοσμένου αρχείου στυλ XSL (.xsl)"
+
+msgid "plugins.generic.xmlGalley.settings.customXSLCurrent"
+msgstr "Τρέχον προσαρμοσμένο αρχείο στυλ: {$fileName}"
+
+msgid "plugins.generic.xmlGalley.settings.stylesheetRequired"
+msgstr "Επιλέξτε ένα αρχείο στυλ XSL."
