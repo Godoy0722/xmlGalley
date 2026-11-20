@@ -48,6 +48,60 @@ class XMLGalleyPlugin extends GenericPlugin {
 	}
 
 	/**
+	 * @copydoc Plugin::getActions()
+	 */
+	function getActions($request, $verb) {
+		$router = $request->getRouter();
+		import('lib.pkp.classes.linkAction.request.AjaxModal');
+		return array_merge(
+			$this->getEnabled() ? [
+				new LinkAction(
+					'settings',
+					new AjaxModal(
+						$router->url($request, null, null, 'manage', null, ['verb' => 'settings', 'plugin' => $this->getName(), 'category' => 'generic']),
+						$this->getDisplayName()
+					),
+					__('manager.plugins.settings'),
+					null
+				),
+			] : [],
+			parent::getActions($request, $verb)
+		);
+	}
+
+	/**
+	 * @copydoc Plugin::manage()
+	 */
+	function manage($args, $request) {
+		$context = $request->getContext();
+		switch ($request->getUserVar('verb')) {
+			case 'settings':
+				$this->import('XMLGalleySettingsForm');
+				$form = new XMLGalleySettingsForm($this, $context->getId(), $request->getUser()->getId());
+				if ($request->getUserVar('save')) {
+					$form->readInputData();
+					if ($form->validate()) {
+						$form->execute();
+						return new JSONMessage(true);
+					}
+				} else {
+					$form->initData();
+				}
+				return new JSONMessage(true, $form->fetch($request));
+
+			case 'uploadXSL':
+				import('lib.pkp.classes.file.TemporaryFileManager');
+				$temporaryFileManager = new TemporaryFileManager();
+				$temporaryFile = $temporaryFileManager->handleUpload('uploadedFile', $request->getUser()->getId());
+				if (!$temporaryFile) return new JSONMessage(false, __('common.uploadFailed'));
+				$json = new JSONMessage(true);
+				$json->setAdditionalAttributes(['temporaryFileId' => $temporaryFile->getId()]);
+				return $json;
+		}
+		return parent::manage($args, $request);
+	}
+
+	/**
 	 * Present the article wrapper page for XML galleys.
 	 * @param $hookName string
 	 * @param $args array [$request, $issue, $galley, $article, $publication]

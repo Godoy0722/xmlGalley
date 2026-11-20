@@ -43,6 +43,43 @@ class XMLGalleyRendererTest extends PKPTestCase {
 		$this->assertFalse($this->renderer->transform($this->fixture('missing.xml'), $this->nlmStylesheet()));
 	}
 
+	/**
+	 * Run $callback with PHP warnings muted, as in production (logged, not thrown).
+	 * @return mixed What $callback returns
+	 */
+	private function withoutWarnings(callable $callback) {
+		set_error_handler(function () { return true; });
+		try {
+			return $callback();
+		} finally {
+			restore_error_handler();
+		}
+	}
+
+	public function testTransformReturnsFalseForMissingStylesheet() {
+		$this->assertFalse($this->renderer->transform($this->fixture('article.xml'), $this->fixture('missing.xsl')));
+	}
+
+	public function testTransformReturnsFalseForBrokenStylesheet() {
+		$result = $this->withoutWarnings(function () {
+			return $this->renderer->transform($this->fixture('article.xml'), $this->fixture('broken.xsl'));
+		});
+		$this->assertFalse($result);
+	}
+
+	public function testTransformReturnsFalseWhenStylesheetOutputsNothing() {
+		$this->assertFalse($this->renderer->transform($this->fixture('article.xml'), $this->fixture('empty-output.xsl')));
+	}
+
+	public function testTransformRepairsBrokenXml() {
+		// Accepted behaviour: core XSLTransformer recovers malformed XML instead of failing.
+		$html = $this->withoutWarnings(function () {
+			return $this->renderer->transform($this->fixture('broken.xml'), $this->nlmStylesheet());
+		});
+		$this->assertStringContainsString('Broken &amp; unclosed', $html);
+		$this->assertStringContainsString('<strong>never closed</strong>', $html);
+	}
+
 	public function testReplaceFileReferencesRewritesMatchingNamesOnly() {
 		$html = '<img src="figure1.png"><img src="images/figure1.png"><img src="otherfigure1.png"><a HREF="data.csv">x</a>';
 		$result = $this->renderer->replaceFileReferences($html, [
@@ -74,5 +111,14 @@ class XMLGalleyRendererTest extends PKPTestCase {
 		$this->assertFalse($this->renderer->isValidStylesheet($this->fixture('article.xml')));
 		$this->assertFalse($this->renderer->isValidStylesheet($this->fixture('broken.xsl')));
 		$this->assertFalse($this->renderer->isValidStylesheet($this->fixture('missing.xsl')));
+	}
+
+	public function testIsValidStylesheetRejectsEmptyFile() {
+		$emptyFile = tempnam(sys_get_temp_dir(), 'xmlGalleyEmpty');
+		try {
+			$this->assertFalse($this->renderer->isValidStylesheet($emptyFile));
+		} finally {
+			unlink($emptyFile);
+		}
 	}
 }

@@ -3,117 +3,133 @@
 /**
  * @file plugins/generic/xmlGalley/XMLGalleySettingsForm.inc.php
  *
- * Copyright (c) 2013-2019 Simon Fraser University
- * Copyright (c) 2003-2019 John Willinsky
+ * Copyright (c) 2013-2026 Simon Fraser University
+ * Copyright (c) 2003-2026 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class XMLGalleySettingsForm
  * @ingroup plugins_generic_xmlGalley
  *
- * @brief Form for journal managers to modify Article XML Galley plugin settings
+ * @brief Journal manager form: choose the XSL stylesheet and upload a custom one.
  */
 
 import('lib.pkp.classes.form.Form');
 
 class XMLGalleySettingsForm extends Form {
-	/** @var $journalId int */
-	var $journalId;
+	/** @var XMLGalleyPlugin */
+	private $_plugin;
 
-	/** @var $plugin object */
-	var $plugin;
+	/** @var int */
+	private $_contextId;
+
+	/** @var int Current user; only their temporary uploads are accepted. */
+	private $_userId;
 
 	/**
-	 * Constructor
-	 * @param $plugin object
-	 * @param $journalId int
+	 * @param $plugin XMLGalleyPlugin
+	 * @param $contextId int
+	 * @param $userId int
 	 */
-	function XMLGalleySettingsForm(&$plugin, $journalId) {
-		$templateMgr =& TemplateManager::getManager();
+	function __construct($plugin, $contextId, $userId) {
+		$this->_plugin = $plugin;
+		$this->_contextId = $contextId;
+		$this->_userId = $userId;
+		parent::__construct($plugin->getTemplateResource('settingsForm.tpl'));
 
-		parent::Form($plugin->getTemplatePath() . 'settingsForm.tpl');
-
-		$this->journalId = $journalId;
-		$this->plugin =& $plugin;
-
+		$this->addCheck(new FormValidatorInSet($this, 'XSLstylesheet', 'required', 'plugins.generic.xmlGalley.settings.stylesheetRequired', ['NLM', 'custom']));
+		$this->addCheck(new FormValidatorCustom($this, 'temporaryFileId', 'optional', 'plugins.generic.xmlGalley.settings.customXSLInvalid', [$this, 'isValidTemporaryFile']));
+		$this->addCheck(new FormValidatorCustom($this, 'XSLstylesheet', 'required', 'plugins.generic.xmlGalley.settings.customXSLRequired', [$this, 'hasCustomStylesheetIfSelected']));
 		$this->addCheck(new FormValidatorPost($this));
+		$this->addCheck(new FormValidatorCSRF($this));
 	}
 
 	/**
-	 * Initialize form data.
+	 * @copydoc Form::initData()
 	 */
 	function initData() {
-		$journalId = $this->journalId;
-		$plugin =& $this->plugin;
-
-		$templateMgr =& TemplateManager::getManager();
-
-		// set form variables for available XSLT renderers
-		$xsltPHP5 = ( version_compare(PHP_VERSION,'5','>=') && extension_loaded('xsl') && extension_loaded('dom') );
-		$xsltPHP4 = ( version_compare(PHP_VERSION,'5','<') && extension_loaded('xslt') );
-
-		// populate form variables with saved plugin settings
-		$this->setData('xsltPHP5', $xsltPHP5);
-		$this->setData('xsltPHP4', $xsltPHP4);
-
-		if ( !Request::getUserVar('save') ) {
-			$this->setData('XSLTrenderer', $plugin->getSetting($journalId, 'XSLTrenderer'));
-			$this->setData('externalXSLT', $plugin->getSetting($journalId, 'externalXSLT'));
-			$this->setData('XSLstylesheet', $plugin->getSetting($journalId, 'XSLstylesheet'));
-			$this->setData('nlmPDF', $plugin->getSetting($journalId, 'nlmPDF'));
-			$this->setData('externalFOP', $plugin->getSetting($journalId, 'externalFOP'));
-		}
-		$this->setData('customXSL', $plugin->getSetting($journalId, 'customXSL'));
+		$this->_data = [
+			'XSLstylesheet' => $this->_plugin->getSetting($this->_contextId, 'XSLstylesheet') === 'custom' ? 'custom' : 'NLM',
+		];
 	}
 
 	/**
-	 * Assign form data to user-submitted data.
+	 * @copydoc Form::readInputData()
 	 */
 	function readInputData() {
-		$this->readUserVars(array('XSLTrenderer', 'XSLstylesheet', 'externalXSLT', 'customXSL', 'nlmPDF', 'externalFOP'));
-
-		// ensure that external XSLT or XSL are not blank
-		if ($this->getData('XSLTrenderer') == "external") {
-			$this->addCheck(new FormValidator($this, 'externalXSLT', 'required', 'plugins.generic.xmlGalley.settings.externalXSLTRequired'));
-		}
-
-		// if PDF rendering is enabled, then check that an external FO processor is set
-		if ($this->getData('nlmPDF') == "1") {
-			$this->addCheck(new FormValidator($this, 'externalFOP', 'required', 'plugins.generic.xmlGalley.settings.xslFOPRequired'));
-		}
-
-		// if the custom stylesheet button is enabled, then check that an XSL is uploaded
-		if ($this->getData('XSLstylesheet') == "custom") {
-			$this->addCheck(new FormValidator($this, 'customXSL', 'required', 'plugins.generic.xmlGalley.settings.customXSLRequired'));
-		}
-
+		$this->readUserVars(['XSLstylesheet', 'temporaryFileId']);
 	}
 
 	/**
-	 * Save settings.
+	 * @copydoc Form::fetch()
 	 */
-	function execute() {
-		$plugin =& $this->plugin;
-		$journalId = $this->journalId;
+	function fetch($request, $template = null, $display = false) {
+		$templateMgr = TemplateManager::getManager($request);
+		$templateMgr->assign([
+			'pluginName' => $this->_plugin->getName(),
+			'isCustom' => $this->getData('XSLstylesheet') === 'custom',
+			'customXSL' => $this->_plugin->getSetting($this->_contextId, 'customXSL'),
+		]);
+		return parent::fetch($request, $template, $display);
+	}
 
-		// get existing settings to see if any are changing that will affect the cache
-		$flushCache = false;
-		foreach ($this->_data as $setting => $value) {
-			if ($plugin->getSetting($journalId, $setting) != $value) $flushCache = true;
+	/**
+	 * Uploaded temporary file must be an .xsl that parses as an XSLT stylesheet.
+	 * @param $temporaryFileId int
+	 * @return boolean
+	 */
+	function isValidTemporaryFile($temporaryFileId) {
+		$temporaryFile = $this->_getTemporaryFile($temporaryFileId);
+		if (!$temporaryFile) return false;
+		if (strtolower(pathinfo($temporaryFile->getOriginalFileName(), PATHINFO_EXTENSION)) !== 'xsl') return false;
+		$this->_plugin->import('XMLGalleyRenderer');
+		$renderer = new XMLGalleyRenderer();
+		return $renderer->isValidStylesheet($temporaryFile->getFilePath());
+	}
+
+	/**
+	 * Selecting "custom" requires a new upload or an already stored stylesheet.
+	 * @param $choice string
+	 * @return boolean
+	 */
+	function hasCustomStylesheetIfSelected($choice) {
+		if ($choice !== 'custom') return true;
+		if ($this->getData('temporaryFileId')) return true;
+		return $this->_plugin->getStoredCustomStylesheetPath($this->_contextId) !== null;
+	}
+
+	/**
+	 * @copydoc Form::execute()
+	 */
+	function execute(...$functionArgs) {
+		$temporaryFileId = $this->getData('temporaryFileId');
+		if ($temporaryFileId) {
+			$temporaryFile = $this->_getTemporaryFile($temporaryFileId);
+			$target = $this->_plugin->getCustomStylesheetPath($this->_contextId);
+
+			import('lib.pkp.classes.file.FileManager');
+			$fileManager = new FileManager();
+			if (!$fileManager->fileExists(dirname($target), 'dir')) $fileManager->mkdirtree(dirname($target));
+			if (!$fileManager->copyFile($temporaryFile->getFilePath(), $target)) {
+				throw new Exception('Could not store the custom XSL stylesheet at ' . $target);
+			}
+			$this->_plugin->updateSetting($this->_contextId, 'customXSL', $temporaryFile->getOriginalFileName(), 'string');
+
+			import('lib.pkp.classes.file.TemporaryFileManager');
+			$temporaryFileManager = new TemporaryFileManager();
+			$temporaryFileManager->deleteById($temporaryFile->getId(), $temporaryFile->getUserId());
 		}
 
-		// if there are changes, flush the XSLT cache
-		if ($flushCache == true) {
-			$cacheManager =& CacheManager::getManager();
-			$cacheManager->flush('xsltGalley', CACHE_TYPE_FILE);
-		}
+		$this->_plugin->updateSetting($this->_contextId, 'XSLstylesheet', $this->getData('XSLstylesheet'), 'string');
+		$this->_plugin->flushCache($this->_contextId);
+		parent::execute(...$functionArgs);
+	}
 
-		$plugin->updateSetting($journalId, 'nlmPDF', $this->getData('nlmPDF'));
-		$plugin->updateSetting($journalId, 'externalFOP', $this->getData('externalFOP'));
-		$plugin->updateSetting($journalId, 'XSLTrenderer', $this->getData('XSLTrenderer'));
-		$plugin->updateSetting($journalId, 'XSLstylesheet', $this->getData('XSLstylesheet'));
-		$plugin->updateSetting($journalId, 'externalXSLT', $this->getData('externalXSLT'));
-		$plugin->updateSetting($journalId, 'customXSL', $this->getData('customXSL'));
+	/**
+	 * @param $temporaryFileId int
+	 * @return TemporaryFile|null Only files uploaded by the current user.
+	 */
+	private function _getTemporaryFile($temporaryFileId) {
+		$temporaryFileDao = DAORegistry::getDAO('TemporaryFileDAO'); /* @var $temporaryFileDao TemporaryFileDAO */
+		return $temporaryFileDao->getTemporaryFile((int) $temporaryFileId, $this->_userId);
 	}
 }
-
-?>
