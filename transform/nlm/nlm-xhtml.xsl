@@ -120,59 +120,70 @@
 	</xsl:template>
 
     <xsl:template name="self-citation">
+		<!-- Each part of the one-line citation is printed only when the article has it,
+		     so articles without journal-meta or pub-date get no stray "NaN" or separators. -->
+		<xsl:variable name="journalId" select="normalize-space(journal-meta/journal-id[1])"/>
+		<xsl:variable name="epubDate" select="article-meta/pub-date[@pub-type='epub'][1]"/>
+		<xsl:variable name="pubDate" select="$epubDate | article-meta/pub-date[1][not($epubDate)]"/>
+		<xsl:variable name="hasYear" select="string(number($pubDate/year)) != 'NaN'"/>
+		<xsl:variable name="hasVolumeInfo" select="normalize-space(article-meta/volume) != '' or normalize-space(article-meta/issue) != '' or normalize-space(article-meta/elocation-id) != ''"/>
+		<xsl:variable name="doi" select="normalize-space(article-meta/article-id[@pub-id-type='doi'])"/>
+
+		<xsl:if test="$journalId != '' or $hasYear or $hasVolumeInfo or $doi != ''">
         <div class="self-citation">
 
 			<!-- one-line citation -->
-            <abbr class="title" title="{journal-meta/journal-title}">
-<!--                <xsl:value-of select="journal-meta/journal-id[@journal-id-type='nlm-ta' or @journal-id-type='pubmed'][1]"/> 	-->
-				<xsl:value-of select="journal-meta/journal-id"/>
-            </abbr>
-            <xsl:text>. </xsl:text>
+			<xsl:if test="$journalId != ''">
+	            <abbr class="title" title="{journal-meta/journal-title}">
+					<xsl:value-of select="$journalId"/>
+	            </abbr>
+	            <xsl:text>.</xsl:text>
+			</xsl:if>
 
-			<xsl:choose>
-				<xsl:when test="article-meta/pub-date[@pub-type='epub']">
+			<xsl:if test="$hasYear">
+				<xsl:if test="$journalId != ''"><xsl:text> </xsl:text></xsl:if>
+				<xsl:variable name="formattedDate">
 					<xsl:call-template name="date-format">
 						<xsl:with-param name="date">
-							<xsl:value-of select="format-number(article-meta/pub-date[@pub-type='epub']/year,'0000')"/>
-							<xsl:value-of select="format-number(article-meta/pub-date[@pub-type='epub']/month,'00')"/>
-							<xsl:value-of select="format-number(article-meta/pub-date[@pub-type='epub']/day,'00')"/>
+							<xsl:value-of select="format-number($pubDate/year,'0000')"/>
+							<xsl:value-of select="format-number($pubDate/month,'00')"/>
+							<xsl:value-of select="format-number($pubDate/day,'00')"/>
 						</xsl:with-param>
 						<xsl:with-param name="type" select="'short'"/>
 					</xsl:call-template>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:call-template name="date-format">
-						<xsl:with-param name="date">
-							<xsl:value-of select="format-number(article-meta/pub-date/year,'0000')"/>
-							<xsl:value-of select="format-number(article-meta/pub-date/month,'00')"/>
-							<xsl:value-of select="format-number(article-meta/pub-date/day,'00')"/>
-						</xsl:with-param>
-						<xsl:with-param name="type" select="'short'"/>
-					</xsl:call-template>
-				</xsl:otherwise>
-            </xsl:choose>
-            <xsl:text>; </xsl:text>
+				</xsl:variable>
+				<!-- date-format leaves spaces where a missing month or day would be -->
+				<xsl:value-of select="normalize-space($formattedDate)"/>
+			</xsl:if>
 
-            <xsl:if test="article-meta/volume">
-				<xsl:value-of select="article-meta/volume"/>
-            </xsl:if>
+			<xsl:if test="$hasVolumeInfo">
+				<xsl:choose>
+					<xsl:when test="$hasYear"><xsl:text>; </xsl:text></xsl:when>
+					<xsl:when test="$journalId != ''"><xsl:text> </xsl:text></xsl:when>
+				</xsl:choose>
 
-            <xsl:if test="article-meta/issue">
-                <xsl:text>(</xsl:text><xsl:value-of select="article-meta/issue"/><xsl:text>)</xsl:text>
-            </xsl:if>
+	            <xsl:if test="normalize-space(article-meta/volume) != ''">
+					<xsl:value-of select="article-meta/volume"/>
+	            </xsl:if>
 
-            <xsl:if test="article-meta/elocation-id">
-                <xsl:text>: </xsl:text><xsl:value-of select="article-meta/elocation-id"/>
-            </xsl:if>
+	            <xsl:if test="normalize-space(article-meta/issue) != ''">
+	                <xsl:text>(</xsl:text><xsl:value-of select="article-meta/issue"/><xsl:text>)</xsl:text>
+	            </xsl:if>
 
-			<xsl:if test="article-meta/article-id[@pub-id-type='doi']">
+	            <xsl:if test="normalize-space(article-meta/elocation-id) != ''">
+	                <xsl:text>: </xsl:text><xsl:value-of select="article-meta/elocation-id"/>
+	            </xsl:if>
+			</xsl:if>
+
+			<xsl:if test="$doi != ''">
 				<div id="doi">
 		        	<abbr title="Digital Object Identifier">doi</abbr>
-		        	<xsl:text>: </xsl:text><xsl:value-of select="article-meta/article-id[@pub-id-type='doi']"/>
+		        	<xsl:text>: </xsl:text><xsl:value-of select="$doi"/>
 				</div>
 			</xsl:if>
         </div>
 	  	<br/>
+		</xsl:if>
 
     </xsl:template>
 

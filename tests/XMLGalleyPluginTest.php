@@ -16,6 +16,8 @@
 import('lib.pkp.tests.PKPTestCase');
 import('classes.article.ArticleGalley');
 import('lib.pkp.classes.submission.SubmissionFile');
+import('classes.publication.Publication');
+import('classes.submission.Submission');
 require_once(dirname(__DIR__) . '/XMLGalleyPlugin.inc.php');
 require_once(dirname(__DIR__) . '/XMLGalleyRenderer.inc.php');
 
@@ -114,10 +116,36 @@ class XMLGalleyPluginTest extends PKPTestCase {
 		$this->assertFalse($plugin->articleDownloadCallback('ArticleHandler::download', [null, $this->makeGalley('text/xml', 5), 9]));
 	}
 
-	public function testDownloadFallsBackToRawXmlWhenRenderingFails() {
-		$plugin = $this->makePluginRenderingGalley(1, false);
+	public function testDownloadShowsRawXmlWhenRenderingFails() {
+		// The plugin streams the XML itself (inline), so the reader page's frame shows it
+		// instead of the browser downloading it.
+		$plugin = $this->makePlugin(['getGalleyHtml', 'sendRawXml']);
+		$plugin->expects($this->once())->method('getGalleyHtml')->willReturn(false);
+		$galley = $this->makeGalley('text/xml', 5);
+		$plugin->expects($this->once())->method('sendRawXml')->with($galley->getFile());
 		$this->expectOutputString('');
-		$this->assertFalse($plugin->articleDownloadCallback('ArticleHandler::download', [null, $this->makeGalley('text/xml', 5), 5]));
+		$this->assertTrue($plugin->articleDownloadCallback('ArticleHandler::download', [null, $galley, 5]));
+	}
+
+	public function testGalleyPublicationIsTheGalleysOwnVersion() {
+		$versions = [];
+		foreach ([10, 11] as $id) {
+			$publication = new Publication();
+			$publication->setId($id);
+			$versions[$id] = $publication;
+		}
+		$article = new Submission();
+		$article->setData('publications', array_values($versions));
+		$galley = $this->createMock(ArticleGalley::class);
+		$galley->method('getData')->willReturnCallback(function ($key) {
+			return $key === 'publicationId' ? 10 : null;
+		});
+
+		$plugin = $this->makePlugin();
+		$this->assertSame($versions[10], $plugin->getGalleyPublication($article, $galley), 'old version, not the latest');
+
+		$article->setData('publications', [$versions[11]]);
+		$this->assertNull($plugin->getGalleyPublication($article, $galley));
 	}
 
 	public function testViewIgnoresNonXmlGalley() {

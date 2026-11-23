@@ -39,6 +39,19 @@ class XMLGalleyRendererTest extends PKPTestCase {
 		$this->assertStringContainsString('<img src="figure1.png">', $html);
 	}
 
+	public function testNlmCitationLineOmittedWhenArticleHasNoJournalOrDate() {
+		// article.xml has no journal-meta, pub-date, volume or DOI: no "NaN" placeholders.
+		$html = $this->renderer->transform($this->fixture('article.xml'), $this->nlmStylesheet());
+		$this->assertStringNotContainsString('NaN', $html);
+		$this->assertStringNotContainsString('self-citation', $html);
+	}
+
+	public function testNlmCitationLineShowsAvailableParts() {
+		$html = $this->renderer->transform($this->fixture('citation.xml'), $this->nlmStylesheet());
+		preg_match('#<div class="self-citation">(.*?)</div>\s*<br>#s', $html, $matches);
+		$this->assertSame('JX. 2024 Mar; 7(2) doi: 10.1/x', trim(preg_replace('/\s+/', ' ', strip_tags($matches[1] ?? ''))));
+	}
+
 	public function testTransformReturnsFalseForMissingFile() {
 		$this->assertFalse($this->renderer->transform($this->fixture('missing.xml'), $this->nlmStylesheet()));
 	}

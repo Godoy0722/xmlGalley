@@ -82,6 +82,9 @@ class XMLGalleyPlugin extends GenericPlugin {
 					$form->readInputData();
 					if ($form->validate()) {
 						$form->execute();
+						import('classes.notification.NotificationManager');
+						$notificationManager = new NotificationManager();
+						$notificationManager->createTrivialNotification($request->getUser()->getId());
 						return new JSONMessage(true);
 					}
 				} else {
@@ -115,13 +118,7 @@ class XMLGalleyPlugin extends GenericPlugin {
 
 		if (!$this->isXmlGalley($galley)) return false;
 
-		$galleyPublication = null;
-		foreach ($article->getData('publications') as $publication) {
-			if ($publication->getId() === $galley->getData('publicationId')) {
-				$galleyPublication = $publication;
-				break;
-			}
-		}
+		$galleyPublication = $this->getGalleyPublication($article, $galley);
 		$templateMgr = TemplateManager::getManager($request);
 		$templateMgr->assign([
 			'issue' => $issue,
@@ -136,7 +133,7 @@ class XMLGalleyPlugin extends GenericPlugin {
 
 	/**
 	 * Serve the XSLT-rendered HTML instead of the raw XML file.
-	 * Falls back to the core download (raw XML) when the transform fails.
+	 * When the transform fails, the raw XML is shown in the browser instead.
 	 * @param $hookName string
 	 * @param $args array [$article, $galley, $fileId]
 	 * @return boolean
@@ -150,17 +147,46 @@ class XMLGalleyPlugin extends GenericPlugin {
 
 		$request = Application::get()->getRequest();
 		$html = $this->getGalleyHtml($request, $article, $galley);
-		if ($html === false) return false;
+
+		$returner = true;
+		HookRegistry::call('FileManager::downloadFileFinished', [&$returner]);
+
+		if ($html === false) {
+			$this->sendRawXml($galley->getFile());
+			return true;
+		}
 
 		header('Content-Type: text/html; charset=utf-8');
 		header('Content-Length: ' . strlen($html));
 		header('Content-Disposition: inline');
 		header('Cache-Control: private');
 		echo $html;
-
-		$returner = true;
-		HookRegistry::call('FileManager::downloadFileFinished', [&$returner]);
 		return true;
+	}
+
+	/**
+	 * Stream the galley's XML file to the browser for display, not as an attachment,
+	 * so the reader page's frame shows it instead of triggering a download.
+	 * Does not return (the file service exits).
+	 * @param $submissionFile SubmissionFile
+	 */
+	function sendRawXml($submissionFile) {
+		$fileService = Services::get('file');
+		$filename = $fileService->formatFilename($submissionFile->getData('path'), $submissionFile->getLocalizedData('name'));
+		$fileService->download((int) $submissionFile->getData('fileId'), $filename, true);
+	}
+
+	/**
+	 * The article version (publication) a galley belongs to.
+	 * @param $article Submission
+	 * @param $galley ArticleGalley
+	 * @return Publication|null
+	 */
+	function getGalleyPublication($article, $galley) {
+		foreach ((array) $article->getData('publications') as $publication) {
+			if ($publication->getId() == $galley->getData('publicationId')) return $publication;
+		}
+		return null;
 	}
 
 	/**
@@ -202,18 +228,18 @@ class XMLGalleyPlugin extends GenericPlugin {
 		$stylesheetUrls = [];
 		foreach ($dependentFiles as $dependentFile) {
 			$name = $dependentFile->getLocalizedData('name');
-			$mimetype = $dependentFile->getData('mimetype');
-			$params = in_array($mimetype, ['text/css', 'text/plain']) ? ['inline' => 'true'] : [];
 			$url = $request->url(null, 'article', 'download', [
 				$article->getBestId(), 'version', $galley->getData('publicationId'),
 				$galley->getBestGalleyId(), $dependentFile->getId(), $name,
-			], $params);
+			]);
 			$urlsByFileName[$name] = $url;
-			if ($mimetype === 'text/css') $stylesheetUrls[] = $url;
+			if ($dependentFile->getData('mimetype') === 'text/css') $stylesheetUrls[] = $url;
 		}
 
 		$html = $renderer->replaceFileReferences($fragment, $urlsByFileName);
-		$html = $renderer->wrapDocument($html, $article->getLocalizedTitle(), $stylesheetUrls);
+		$galleyPublication = $this->getGalleyPublication($article, $galley);
+		$title = $galleyPublication ? $galleyPublication->getLocalizedTitle() : $article->getLocalizedTitle();
+		$html = $renderer->wrapDocument($html, $title, $stylesheetUrls);
 		return TemplateManager::getManager($request)->loadHtmlGalleyStyles($html, $dependentFiles);
 	}
 

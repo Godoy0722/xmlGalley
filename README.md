@@ -76,7 +76,9 @@ XSL.
 - Generated HTML is cached per galley file in the OJS file cache. A new file
   revision is rendered again automatically.
 - If the transformation fails (e.g. invalid stylesheet), the raw XML is
-  served.
+  shown in the reader's browser instead.
+- After updating the plugin's built-in stylesheet, clear the cached pages with
+  Administration > Clear Data Caches.
 - Malformed XML is repaired by the XML parser where possible, so readers may
   see partial content; check the server log for parser warnings.
 - XML that references a remote DTD is resolved over the network, which can be
