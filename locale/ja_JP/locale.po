@@ -24,7 +24,7 @@ msgid "plugins.generic.xmlGalley.settings.stylesheet"
 msgstr "XSLスタイルシート"
 
 msgid "plugins.generic.xmlGalley.settings.xslNLM"
-msgstr "<a href=\"http://dtd.nlm.nih.gov/publishing/\">NLM雑誌出版DTD</a> &rarr; XHTML"
+msgstr "NLM雑誌出版DTD &rarr; XHTML"
 
 msgid "plugins.generic.xmlGalley.settings.customXSL"
 msgstr "カスタムXSLスタイルシート"

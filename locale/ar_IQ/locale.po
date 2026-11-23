@@ -24,7 +24,7 @@ msgid "plugins.generic.xmlGalley.settings.stylesheet"
 msgstr "ملف أنماط XSL"
 
 msgid "plugins.generic.xmlGalley.settings.xslNLM"
-msgstr "<a href=\"http://dtd.nlm.nih.gov/publishing/\">NLM نشر المجلة DTD</a> &rarr; XHTML"
+msgstr "NLM نشر المجلة DTD &rarr; XHTML"
 
 msgid "plugins.generic.xmlGalley.settings.customXSL"
 msgstr "ملف أنماط XSL مخصص"

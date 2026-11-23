@@ -24,7 +24,7 @@ msgid "plugins.generic.xmlGalley.settings.stylesheet"
 msgstr "Feuille de style XSL"
 
 msgid "plugins.generic.xmlGalley.settings.xslNLM"
-msgstr "<a href=\"http://dtd.nlm.nih.gov/publishing/\">Définition de type de document NLM pour l'édition de revues</a> &rarr; XHTML"
+msgstr "Définition de type de document NLM pour l'édition de revues &rarr; XHTML"
 
 msgid "plugins.generic.xmlGalley.settings.customXSL"
 msgstr "Feuille de style XSL personnalisée"

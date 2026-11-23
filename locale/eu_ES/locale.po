@@ -24,7 +24,7 @@ msgid "plugins.generic.xmlGalley.settings.stylesheet"
 msgstr "XSL estilo-orria"
 
 msgid "plugins.generic.xmlGalley.settings.xslNLM"
-msgstr "<a href=\"http://dtd.nlm.nih.gov/publishing/\">NLM aldizkariak argitaratzeko DTD</a> &rarr; XHTML"
+msgstr "NLM aldizkariak argitaratzeko DTD &rarr; XHTML"
 
 msgid "plugins.generic.xmlGalley.settings.customXSL"
 msgstr "XSL estilo-orri pertsonalizatua"

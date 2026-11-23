@@ -24,7 +24,7 @@ msgid "plugins.generic.xmlGalley.settings.stylesheet"
 msgstr "Full d'estil XSL"
 
 msgid "plugins.generic.xmlGalley.settings.xslNLM"
-msgstr "<a href=\"http://dtd.nlm.nih.gov/publishing/\">NLM Publicació de la Revista DTD</a> &rarr; XHTML"
+msgstr "NLM Publicació de la Revista DTD &rarr; XHTML"
 
 msgid "plugins.generic.xmlGalley.settings.customXSL"
 msgstr "Full d'estil XSL personalitzat"
