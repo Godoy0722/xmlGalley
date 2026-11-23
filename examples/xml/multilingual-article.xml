@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Non-ASCII text in many scripts, plus entities and escaped markup.
+	Checks that the page is served as UTF-8 and that nothing is double-escaped.
+-->
+<article xmlns:xlink="http://www.w3.org/1999/xlink" article-type="research-article" xml:lang="pt">
+	<front>
+		<article-meta>
+			<title-group>
+				<article-title>Ação, coração &amp; informação: Ελληνικά, Русский, 日本語, العربية</article-title>
+			</title-group>
+			<contrib-group>
+				<contrib contrib-type="author"><name><surname>Fictício</surname><given-names>José</given-names></name></contrib>
+				<contrib contrib-type="author"><name><surname>Beispiel</surname><given-names>Jürgen</given-names></name></contrib>
+				<contrib contrib-type="author"><name><surname>Øvelse</surname><given-names>Åsa</given-names></name></contrib>
+			</contrib-group>
+			<abstract><p>Resumo com acentuação: é, à, ç, ñ, ü. Símbolos: €, ©, ™, →, ≤, ∞.</p></abstract>
+		</article-meta>
+	</front>
+	<body>
+		<sec>
+			<title>Escritas</title>
+			<p>Grego: Η γλώσσα είναι ελληνική.</p>
+			<p>Cirílico: Привет, мир.</p>
+			<p>Japonês: こんにちは世界。</p>
+			<p>Chinês: 你好，世界。</p>
+			<p>Árabe (direita para a esquerda): مرحبا بالعالم.</p>
+			<p>Hebraico: שלום עולם.</p>
+			<p>Emoji: 📄 ✅</p>
+		</sec>
+		<sec>
+			<title>Escapes</title>
+			<p>Markup shown as text, not rendered: &lt;script&gt;alert(1)&lt;/script&gt; and &lt;b&gt;not bold&lt;/b&gt;.</p>
+			<p>Numeric references: &#169; &#x2014; &#8364;.</p>
+			<p>Quotes: "double", 'single', “curly”.</p>
+		</sec>
+	</body>
+</article>

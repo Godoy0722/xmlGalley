@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Smallest useful NLM article: title, one author, one paragraph. No dependent files. -->
+<article xmlns:xlink="http://www.w3.org/1999/xlink" article-type="research-article">
+	<front>
+		<article-meta>
+			<title-group><article-title>Minimal Article</article-title></title-group>
+			<contrib-group>
+				<contrib contrib-type="author"><name><surname>Doe</surname><given-names>Jane</given-names></name></contrib>
+			</contrib-group>
+		</article-meta>
+	</front>
+	<body>
+		<p>One paragraph, no sections.</p>
+	</body>
+</article>

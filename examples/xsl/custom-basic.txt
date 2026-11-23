@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Same content as custom-basic.xsl, but with a .txt extension.
+	Expected: rejected on upload with "The uploaded XSL file was not valid" (only .xsl accepted).
+-->
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+	<xsl:output method="html" omit-xml-declaration="yes" encoding="utf-8"/>
+	<xsl:template match="/">
+		<p>CUSTOM: <xsl:value-of select="//article-title"/></p>
+	</xsl:template>
+</xsl:stylesheet>

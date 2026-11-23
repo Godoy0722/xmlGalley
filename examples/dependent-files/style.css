@@ -1,0 +1,7 @@
+/* Dependent CSS for XML galleys. The plugin links it in the page head; it replaces the theme galley styles. */
+body { background: #ffe; font-family: Georgia, serif; max-width: 52em; margin: 2em auto; padding: 0 1em; }
+h1, h2, h3 { color: #234; }
+img { border: 2px solid #234; }
+table { border-collapse: collapse; }
+th, td { border: 1px solid #999; padding: .25em .5em; }
+.marker { background: #234; color: #fff; padding: .25em .5em; display: inline-block; }

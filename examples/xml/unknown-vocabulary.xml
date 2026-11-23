@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Well-formed XML that is not an NLM/JATS article (root is <document>, not <article>).
+	The built-in NLM stylesheet has no template for this root, so output is little
+	or nothing. Use it to see how the plugin behaves with foreign XML:
+	plain text / near-empty page, or raw XML when the output is empty. No fatal error.
+-->
+<document>
+	<heading>Not an NLM article</heading>
+	<paragraph>Generic XML with its own element names.</paragraph>
+	<paragraph>A custom XSL would be needed to render it properly.</paragraph>
+</document>

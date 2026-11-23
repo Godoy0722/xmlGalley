@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Not well-formed: <bold> and <italic> are never closed.
+	Expected: core recover mode repairs it, the reader sees partial HTML, no fatal error.
+-->
+<article xmlns:xlink="http://www.w3.org/1999/xlink" article-type="research-article">
+	<front>
+		<article-meta>
+			<title-group><article-title>Broken Article</article-title></title-group>
+		</article-meta>
+	</front>
+	<body>
+		<sec>
+			<title>Damaged section</title>
+			<p>This paragraph opens <bold>bold text and never closes it.</p>
+			<p>This one opens <italic>italic text and never closes it.</p>
+		</sec>
+		<sec>
+			<title>Section after the damage</title>
+			<p>May or may not appear, depending on how libxml repairs the tree.</p>
+		</sec>
+	</body>
+</article>
